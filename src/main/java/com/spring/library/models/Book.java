@@ -26,7 +26,7 @@ public class Book {
     @Min(value = 1500, message = "Год должен быть больше, чем 1500")
     private int year;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -101,13 +102,18 @@ public class BooksController {
     }
 
     @GetMapping("/search")
-    public String enterSearch(@ModelAttribute("line") String line){
+    public String enterSearch(){
         return "books/search";
     }
 
     @PostMapping("/search")
-    public String search(@ModelAttribute("line") String line, Model model){
-        model.addAttribute("booksFound", bookService.search(line));
-        return "redirect:/books/search";
+    public String search(@RequestParam(name = "line") String line, Model model){
+        List<Book> booksFound = bookService.search(line);
+        if(booksFound.size()!=0) {
+            model.addAttribute("booksFound", booksFound);
+            Person owner = booksFound.get(0).getOwner();
+            if(owner!=null) model.addAttribute("owner", owner);
+        }
+        return "books/search";
     }
 }

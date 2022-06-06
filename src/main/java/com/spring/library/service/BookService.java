@@ -3,13 +3,16 @@ package com.spring.library.service;
 import com.spring.library.models.Book;
 import com.spring.library.models.Person;
 import com.spring.library.repository.BookRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.print.Pageable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,6 +86,7 @@ public class BookService {
 
 
     public List<Book> search(String line) {
-       return bookRepository.findBooksByTitleStartingWith(line);
+        List<Book> foundBooks = bookRepository.findBooksByTitleStartingWith(line);
+        return foundBooks;
     }
 }

@@ -5,30 +5,35 @@
     <title>Search books</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/search}" >
+<form th:action="@{/books/search}" th:method="post">
     <label for="line">Enter line for searching: </label>
-    <input type="text" th:object="${line}" id="line"/>
+    <input type="text" name="line" id="line"/>
     <br/>
     <input type="submit" value="Search"/>
 </form>
 
     <hr>
 
-    <span th:if="${booksFound.size()!=0}">
+    <span th:if="${booksFound}">
     <div th:each="book : ${booksFound}">
-    <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</p><br>
-      <span th:if="${book.getOwner()!=null}" >
-    <h4 th:text="${'the book belongs to ' + owner.getFullName()}">owner</h4>
+      <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</p><br>
+
+      <span th:if="${owner}" >
+         <h4 th:text="${'the book belongs to ' + owner.getFullName()}">owner</h4>
       </span>
-        <span th:if="${book.getOwner()==null}" >
+
+      <span th:unless="${owner}" >
            <h4>the book is available</h4>
       </span>
     </div>
     </span>
 
 
-   <span th:if="${booksFound.size()==0}">
+   <span th:unless="${booksFound}">
        <h4>The book is not found</h4>
    </span>
+
+
+<a href="/books">Back to books</a>
 </body>
 </html>
