@@ -2,12 +2,16 @@ package com.spring.library.models;
 
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-
+@Entity(name = "book")
 public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty(message = "Название книги не должно быть пустым")
@@ -20,6 +24,18 @@ public class Book {
 
     @Min(value = 1500, message = "Год должен быть больше, чем 1500")
     private int year;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "person_id")
+    private Person owner;
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
 
     public Book() {
 

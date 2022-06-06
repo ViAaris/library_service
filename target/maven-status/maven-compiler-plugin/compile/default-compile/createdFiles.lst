@@ -1,0 +1,12 @@
+com\spring\library\config\MySpringMvcDispatcherSerlvetIntitializer.class
+com\spring\library\service\PeopleService.class
+com\spring\library\dao\PersonDAO.class
+com\spring\library\controllers\PeopleController.class
+com\spring\library\repository\BookRepository.class
+com\spring\library\controllers\BooksController.class
+com\spring\library\models\Person.class
+com\spring\library\models\Book.class
+com\spring\library\config\SpringConfig.class
+com\spring\library\repository\PersonRepository.class
+com\spring\library\dao\BookDAO.class
+com\spring\library\util\PersonValidator.class

@@ -9,7 +9,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>neil-project1 Maven Webapp</name>
+  <name>neil-project2 Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -17,7 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <spring.version>5.2.1.RELEASE</spring.version>
+    <spring.version>5.3.15</spring.version>
   </properties>
 
   <dependencies>
@@ -34,7 +34,11 @@
       <artifactId>spring-data-jpa</artifactId>
       <version>2.6.1</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-dbcp</artifactId>
+      <version>9.0.10</version>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
@@ -107,7 +111,7 @@
   </dependencies>
 
   <build>
-    <finalName>neil-project1</finalName>
+    <finalName>neil-project2</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
