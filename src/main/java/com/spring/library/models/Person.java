@@ -8,7 +8,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-@Entity(name="person")
+@Entity
+@Table(name="person")
 public class Person {
 
     @Id
@@ -24,7 +25,7 @@ public class Person {
     @Column(name="year_of_birth")
     private int yearOfBirth;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "owner")
     private List<Book> books;
 
 

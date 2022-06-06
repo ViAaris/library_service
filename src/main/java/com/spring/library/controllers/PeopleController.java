@@ -36,9 +36,11 @@ public class PeopleController {
     public String show(@PathVariable("id")int id, Model model){
         model.addAttribute("person", peopleService.show(id));
         List<Book> books = peopleService.books(id);
+
         if(books.size()!=0){
             model.addAttribute("books", books);
         }
+
         return "people/show";
     }
 

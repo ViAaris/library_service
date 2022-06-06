@@ -29,8 +29,13 @@ public class BooksController {
     }
 
     @GetMapping
-    public String allBooks(Model model){
-        model.addAttribute("books", bookService.getAll());
+    public String allBooks(@RequestParam(required = false, name = "page") String page,
+                           @RequestParam(required = false, name = "books_per_page") String booksPerPage,
+                           @RequestParam(required = false, name = "sort_by") String sortBy,
+                           Model model) {
+
+        model.addAttribute("books", bookService.getAll(page, booksPerPage, sortBy));
+
         return "books/index";
     }
 
@@ -38,32 +43,33 @@ public class BooksController {
     public String show(@PathVariable("id") int id, Model model) {
 
         model.addAttribute("book", bookService.show(id));
-        Person owner = bookService.hasOwner(id);
-        if (owner != null) {
-            model.addAttribute("owner", owner);
+        Optional<Person> owner= bookService.hasOwner(id);
+        if (owner.isPresent()) {
+            model.addAttribute("owner", owner.get());
         } else {
             model.addAttribute("owner", new Person());
             model.addAttribute("people", peopleService.getAll());
         }
 
+
         return "books/show";
     }
 
     @GetMapping("/new")
-    public String newBook(@ModelAttribute("book") Book book){
+    public String newBook(@ModelAttribute("book") Book book) {
         return "books/new";
     }
 
     @PostMapping()
-    public String addNewBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult){
-        if(bindingResult.hasErrors())return "books/new";
+    public String addNewBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "books/new";
         bookService.save(book);
         return "redirect:/books";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("book",bookService.show(id));
+        model.addAttribute("book", bookService.show(id));
         return "books/edit";
     }
 
@@ -77,20 +83,31 @@ public class BooksController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteBook(@PathVariable("id") int id){
+    public String deleteBook(@PathVariable("id") int id) {
         bookService.delete(id);
         return "redirect:/books";
     }
 
     @PatchMapping("/assign/{id}")
-    public String assign(@PathVariable("id")int id, @ModelAttribute("owner") Person person ){
+    public String assign(@PathVariable("id") int id, @ModelAttribute("owner") Person person) {
         bookService.assign(id, person);
         return "redirect:/books/{id}";
     }
 
     @PatchMapping("/cancel/{id}")
-    public String cancelOwner(@PathVariable("id")int id){
+    public String cancelOwner(@PathVariable("id") int id) {
         bookService.cancel(id);
         return "redirect:/books/{id}";
+    }
+
+    @GetMapping("/search")
+    public String enterSearch(@ModelAttribute("line") String line){
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String search(@ModelAttribute("line") String line, Model model){
+        model.addAttribute("booksFound", bookService.search(line));
+        return "redirect:/books/search";
     }
 }

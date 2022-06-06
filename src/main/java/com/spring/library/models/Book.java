@@ -7,7 +7,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Entity(name = "book")
+@Entity
+@Table(name = "book")
 public class Book {
 
     @Id
@@ -25,8 +26,8 @@ public class Book {
     @Min(value = 1500, message = "Год должен быть больше, чем 1500")
     private int year;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "person_id")
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
     public Person getOwner() {

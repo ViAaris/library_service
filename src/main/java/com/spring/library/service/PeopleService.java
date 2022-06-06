@@ -4,11 +4,14 @@ import com.spring.library.models.Book;
 import com.spring.library.models.Person;
 import com.spring.library.repository.BookRepository;
 import com.spring.library.repository.PersonRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,13 +30,17 @@ public class PeopleService {
         return personRepository.findAll();
     }
 
-    @Transactional
+
     public Person show(int id){
-        return personRepository.getById(id);
+        return personRepository.findById(id).orElse(null);
     }
 
     public List<Book> books(int id){
-        return bookRepository.findBooksByOwnerId(id);
+        Optional<Person> person = personRepository.findById(id);
+        if(person.isPresent()){
+            Hibernate.initialize(person.get().getBooks());
+            return person.get().getBooks();
+        }else return Collections.emptyList();
     }
 
 
