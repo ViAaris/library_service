@@ -12,7 +12,8 @@
 <span th:if="${books}">
     <h4>List of books: </h4>
 <div th:each="book : ${books}">
-       <h5 th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></h5>
+
+       <h5  th:style="${book.isLate()}? 'color:red'" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></h5>
 </div>
 </span>
 <br>

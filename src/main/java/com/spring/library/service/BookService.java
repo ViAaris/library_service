@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.print.Pageable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,6 +75,7 @@ public class BookService {
     public void assign(int id, Person person) {
         Book book = bookRepository.findById(id).get();
         book.setOwner(person);
+        book.setReceivingDate(new Date());
         bookRepository.save(book);
     }
 

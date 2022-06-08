@@ -5,6 +5,7 @@
     <title>book</title>
 </head>
 <body>
+
 <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">VALUE</p>
 <br>
 <span th:if="${owner.getFullName()!=null}" >

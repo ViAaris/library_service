@@ -44,7 +44,7 @@ public class BooksController {
     public String show(@PathVariable("id") int id, Model model) {
 
         model.addAttribute("book", bookService.show(id));
-        Optional<Person> owner= bookService.hasOwner(id);
+        Optional<Person> owner = bookService.hasOwner(id);
         if (owner.isPresent()) {
             model.addAttribute("owner", owner.get());
         } else {
@@ -102,18 +102,20 @@ public class BooksController {
     }
 
     @GetMapping("/search")
-    public String enterSearch(){
+    public String enterSearch() {
         return "books/search";
     }
 
     @PostMapping("/search")
-    public String search(@RequestParam(name = "line") String line, Model model){
+    public String search(@RequestParam(required = true, name = "line") String line, Model model) {
         List<Book> booksFound = bookService.search(line);
-        if(booksFound.size()!=0) {
+        if (booksFound.size() != 0) {
             model.addAttribute("booksFound", booksFound);
-            Person owner = booksFound.get(0).getOwner();
-            if(owner!=null) model.addAttribute("owner", owner);
+            for (Book book : booksFound) {
+                Person owner = booksFound.get(0).getOwner();
+                if (owner != null) model.addAttribute("owner", owner);
+            }
         }
-        return "books/search";
+            return "books/search";
     }
 }

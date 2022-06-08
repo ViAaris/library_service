@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -38,9 +36,29 @@ public class PeopleService {
     public List<Book> books(int id){
         Optional<Person> person = personRepository.findById(id);
         if(person.isPresent()){
-            Hibernate.initialize(person.get().getBooks());
-            return person.get().getBooks();
+        List<Book> books = person.get().getBooks();
+
+            Hibernate.initialize(books);
+            for(Book book : books){
+                if(book.getReceivingDate()!=null) {
+                    if (isTheBookLate(new Date(), book.getReceivingDate())) {
+                        book.setLate(true);
+                    }
+                }
+            }
+            return books;
         }else return Collections.emptyList();
+    }
+
+    public boolean isTheBookLate(Date currentDate, Date takenAt){
+        Calendar lastDayToReturn = Calendar.getInstance();
+        lastDayToReturn.setTime(takenAt); // Using today's date
+        lastDayToReturn.add(Calendar.DATE, 10); // Adding 5 days
+
+        Calendar current = Calendar.getInstance();
+        current.setTime(currentDate);
+
+        return current.after(lastDayToReturn);
     }
 
 

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "book")
@@ -29,6 +30,29 @@ public class Book {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
+    @Column(name="receiving_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date receivingDate;
+
+    @Transient
+    private boolean isLate;
+
+    public boolean isLate() {
+        return isLate;
+    }
+
+    public void setLate(boolean late) {
+        isLate = late;
+    }
+
+    public Date getReceivingDate() {
+        return receivingDate;
+    }
+
+    public void setReceivingDate(Date receivingDate) {
+        this.receivingDate = receivingDate;
+    }
 
     public Person getOwner() {
         return owner;
