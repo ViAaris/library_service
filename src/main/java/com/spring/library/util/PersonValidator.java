@@ -1,8 +1,8 @@
 package com.spring.library.util;
 
-import com.spring.library.dao.PersonDAO;
+
 import com.spring.library.models.Person;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.spring.library.repository.PersonRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,11 +10,10 @@ import org.springframework.validation.Validator;
 @Component
 public class PersonValidator implements Validator {
 
-    private final PersonDAO personDAO;
+    private final PersonRepository personRepository;
 
-     @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
 
@@ -26,7 +25,7 @@ public class PersonValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         Person person = (Person) o;
-        if(personDAO.show(person.getFullName()).isPresent()){
+        if(personRepository.findPersonByFullName(person.getFullName()).isPresent()){
             errors.rejectValue("fullName", "", "Person with this name already exists");
         }
     }
