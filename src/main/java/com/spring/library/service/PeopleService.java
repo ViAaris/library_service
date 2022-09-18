@@ -52,8 +52,8 @@ public class PeopleService {
 
     public boolean isTheBookLate(Date currentDate, Date takenAt){
         Calendar lastDayToReturn = Calendar.getInstance();
-        lastDayToReturn.setTime(takenAt); // Using today's date
-        lastDayToReturn.add(Calendar.DATE, 10); // Adding 5 days
+        lastDayToReturn.setTime(takenAt);
+        lastDayToReturn.add(Calendar.DATE, 10);
 
         Calendar current = Calendar.getInstance();
         current.setTime(currentDate);

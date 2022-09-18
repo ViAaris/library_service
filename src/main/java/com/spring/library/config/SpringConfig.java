@@ -26,9 +26,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/**
- * @author Neil Alishev
- */
+
 @Configuration
 @EnableJpaRepositories("com.spring.library.repository")
 @ComponentScan("com.spring.library")
